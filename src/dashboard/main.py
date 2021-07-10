@@ -11,15 +11,16 @@ for i in range(2):
     path = os.path.dirname(path)
 sys.path.append(path)
 
-from utils.dashboard_tb import bienvenida
+from utils_.dashboard_tb import bienvenida
+from utils_.dashboard_tb import show_video
 
-add_selectbox = st.sidebar.selectbox('Menu', options=['Bienvenida', 'Planetas potencialmente habitables', 'Flask'])
+add_selectbox = st.sidebar.selectbox('Menu', options=['Bienvenida', 'Planetas potencialmente habitables', 'Flask', 'Demo'])
 
 if add_selectbox == 'Bienvenida':
     bienvenida()
 
-if add_selectbox == 'Planetas potencialmente habitables':
-    grafico_ESI()
-
 if add_selectbox == 'Flask':
     dataframe()
+
+if add_selectbox == 'Demo':
+    show_video()
