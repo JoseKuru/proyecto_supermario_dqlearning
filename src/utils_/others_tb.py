@@ -1,10 +1,13 @@
+import sys, os
 import numpy as np
 import random
 import torch
 import torch.nn as nn
 from time import sleep
-from models_tb import ConvNet
 from collections import deque
+
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+from utils_.models_tb import ConvNet
 
 def epsilon_greedy(env, model, state, epsilon, epsilon_decay):
     '''Exploración vs predicción'''
@@ -109,7 +112,7 @@ def training(episode, env, frame_count, model, target_model, epsilon, epsilon_de
         
         # Realizamos cada 10 episodios las siguientes acciones
         if i % 10 == 0:
-            torch.save(model.state_dict(), 'modelo_provisional.h5')
+            #torch.save(model.state_dict(), 'modelo_provisional.h5') Si se quiere ir guardando el modelo
             print(f'Episode: {i} --> Score {score}')
             print('epsilon: ', epsilon)
             print('frame_count: ', frame_count)
