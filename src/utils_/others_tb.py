@@ -3,6 +3,8 @@ import random
 import torch
 import torch.nn as nn
 from time import sleep
+from models_tb import ConvNet
+from collections import deque
 
 def epsilon_greedy(env, model, state, epsilon, epsilon_decay):
     '''Exploración vs predicción'''
@@ -114,8 +116,32 @@ def training(episode, env, frame_count, model, target_model, epsilon, epsilon_de
 
         score_list.append(score)
 
-def training_various_models():
-    for i in range(len()):    
-        training(episode, env, frame_count, model, target_model, epsilon, epsilon_decay,
-                state_memory, action_memory, reward_memory, new_state_memory, done_memory,
-                batch_size, gamma, score_list, optimizer)
+def select_parameters(env, learning_rate_list, epsilon_decay_list, gamma_list):
+    for i in range(5):
+        frame_count = 0
+        score_episode = []
+        epsilon = 1
+        epsilon_minimun = 0.01
+        score_list_train = []
+
+        model_train = ConvNet(env.observation_space.shape, env.action_space.n) 
+        model_train.cuda()
+
+        target_model_train = ConvNet(env.observation_space.shape, env.action_space.n) 
+        target_model_train.cuda()  
+        
+        optimizer = torch.optim.Adam(model_train.parameters(), learning_rate_list[i])
+        
+        state_memory_train = deque(maxlen=500)
+        action_memory_train = deque(maxlen=500)
+        reward_memory_train = deque(maxlen=500)
+        new_state_memory_train = deque(maxlen=500)
+        done_memory_train = deque(maxlen=500)
+
+        training(50, env, frame_count, model_train, target_model_train, epsilon, epsilon_decay_list[i],
+                state_memory_train, action_memory_train, reward_memory_train, new_state_memory_train, done_memory_train,
+                15, gamma_list[i], score_list_train, optimizer)
+
+        score_episode.append(np.array(score_list_train).mean().item())
+        
+    return score_episode    

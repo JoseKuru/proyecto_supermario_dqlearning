@@ -1,6 +1,6 @@
-Modelo,learning_rate,gamma,epsilon_decay
-Final,0.0005,0.95,0.999
-Prueba1,0.1,0.92,0.995
-Prueba2,0.001,0.97,0.99
-Prueba3,0.0001,0.99,0.95
-Prueba4,1e-05,1.0,0.9
+Modelo,learning_rate,gamma,epsilon_decay,score_episode
+Final,0.0005,0.95,0.999,21.973999999999982
+Prueba1,0.1,0.92,0.995,-38.43600000000022
+Prueba2,0.001,0.97,0.99,19.739999999999974
+Prueba3,0.0001,0.99,0.95,21.735999999999986
+Prueba4,1e-05,1.0,0.9,17.92199999999998

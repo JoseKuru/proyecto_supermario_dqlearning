@@ -8,12 +8,12 @@ from nes_py.wrappers import JoypadSpace
 
 cv2.ocl.setUseOpenCL(False)
 
+# Clases que modifican el environment
 
 class MaxAndSkipEnv(gym.Wrapper):
     def __init__(self, env=None, skip=4):
-        """Return only every `skip`-th frame"""
+        """Devuelve una observación cada 4 frames"""
         super(MaxAndSkipEnv, self).__init__(env)
-        # most recent raw observations (for max pooling across time steps)
         self._obs_buffer = collections.deque(maxlen=2)
         self._skip = skip
 
@@ -30,7 +30,6 @@ class MaxAndSkipEnv(gym.Wrapper):
         return max_frame, total_reward, done, info
 
     def reset(self):
-        """Clear past frame buffer and init to first obs"""
         self._obs_buffer.clear()
         obs = self.env.reset()
         self._obs_buffer.append(obs)
@@ -39,10 +38,7 @@ class MaxAndSkipEnv(gym.Wrapper):
 
 class ProcessFrame84(gym.ObservationWrapper):
     """
-    Downsamples image to 84x84
-    Greyscales image
-
-    Returns numpy array
+    Escala las imágenes a 84x84 pixeles en blanco y negro
     """
     def __init__(self, env=None):
         super(ProcessFrame84, self).__init__(env)
@@ -76,7 +72,7 @@ class ImageToPyTorch(gym.ObservationWrapper):
 
 
 class ScaledFloatFrame(gym.ObservationWrapper):
-    """Normalize pixel values in frame --> 0 to 1"""
+    """Normaliza los pixeles"""
     def observation(self, obs):
         return np.array(obs).astype(np.float32) / 255.0
 
@@ -99,6 +95,7 @@ class BufferWrapper(gym.ObservationWrapper):
         return self.buffer
 
 class CustomReward(gym.Wrapper):
+    """Cambia el tipo de recompensa para premiar más llegar al final del nivel"""
     def __init__(self, env):
         gym.Wrapper.__init__(self, env)
         self._current_score = 0
@@ -115,6 +112,7 @@ class CustomReward(gym.Wrapper):
         return state, reward / 10.0, done, info
 
 def make_env(env, action):
+    # Crea el entorno
     env = MaxAndSkipEnv(env)
     env = ProcessFrame84(env)
     env = ImageToPyTorch(env)
