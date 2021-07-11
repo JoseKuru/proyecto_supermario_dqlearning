@@ -1,0 +1,11 @@
+{
+    "project_name" : "Jugando a Super Mario Bros con aprendizaje reforzado",
+    "author" : "José Carlos Batista Rivero",
+    "linkedin" : "",
+    "e-mail" : "josecarlosbatistarivero@gmail.com",
+    "project_title" : "Jugando a Super Mario Bros con aprendizaje reforzado",
+    "project_description" : "Creación de un modelo de aprendizaje reforzado DQN que logre superar el videojuego Super Mario Bros.",
+    "flask_port" : 5000,
+    "streamlit_port" : 8501,
+    "links" : ""
+}
